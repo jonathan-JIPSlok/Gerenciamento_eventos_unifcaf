@@ -28,3 +28,22 @@ while True:
             break
     elif usuario == '2': # Sair do sistema
         exit()
+
+# Verifica se é um coordenador e manipula
+if list(dadosDoUsuario.values())[0]["tipo"] == "coordenador":
+
+    #Cria um objeto que vai controlar o acesso total
+    objetoDoUsuario = Coordenador()
+    objetoDoUsuario.dadosDoCoordenador = dadosDoUsuario #Define os dados do usuário no objeto
+
+    # Looping para fazer o sistema funcionar.
+    while True:
+        cabecalho("Unifecaf Eventos")
+        printar_opcoes(objetoDoUsuario.funcoesDoCoordenador)
+        usuario = input("O que deseja: ")
+        if usuario == "0":
+            objetoDoUsuario.cadastrarEvento()
+        
+        elif usuario == '3':
+            exit()
+        
