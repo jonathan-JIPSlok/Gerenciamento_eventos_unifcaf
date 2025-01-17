@@ -96,7 +96,7 @@ class Coordenador:
                 
                 #Coletando os eventos e salvando o novo evento
                 eventos = lerArquivoJson(LocalArquivos().arquivoEventos)
-                eventos[nome] = {"data": str(data).split()[0], "descrição": descricao, "número máximo de inscritos": numeroMaxInscritos, "inscritos": 0, "coordenador": list(self.dadosDoCoordenador.keys())[0]}
+                eventos[nome] = {"data": str(data).split()[0], "descrição": descricao, "número máximo de inscritos": int(numeroMaxInscritos), "inscritos": 0, "coordenador": list(self.dadosDoCoordenador.keys())[0]}
                 salvarArquivoJson(LocalArquivos().arquivoEventos, eventos)
             
             else:
