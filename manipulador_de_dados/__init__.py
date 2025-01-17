@@ -11,6 +11,8 @@ def lerArquivoJson(localDoArquivo = str) -> dict:
             return json.load(arquivo)
     except FileNotFoundError:
         return {}
+    except json.decoder.JSONDecodeError:
+        return {}
 
 def salvarArquivoJson(localDoArquivo = str, dados = dict) -> None:
     """
@@ -19,7 +21,7 @@ def salvarArquivoJson(localDoArquivo = str, dados = dict) -> None:
     :param dados: dict: dicionário contendo os dados.
     """
     with open(localDoArquivo, 'w') as arquivo:
-        json.dump(dados, localDoArquivo, indent=4)
+        json.dump(dados, arquivo, indent=4)
 
 class LocalArquivos:
     """

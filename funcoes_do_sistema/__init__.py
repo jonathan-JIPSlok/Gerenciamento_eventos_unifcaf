@@ -1,3 +1,5 @@
+from time import sleep
+
 from funcoes_do_sistema.utilidades import cabecalho
 from manipulador_de_dados import lerArquivoJson, LocalArquivos
 
@@ -7,7 +9,7 @@ def login_coordenador() -> dict:
     :return dict: dados do coordenador
     """
     cabecalho("Login Coordenador")
-    nome = input("Nome completo: ").strip().lower()
+    nome = input("Nome completo: ").strip().capitalize()
     senha = input("Senha: ").strip()
 
     #lê os dados do arquivo
@@ -18,4 +20,5 @@ def login_coordenador() -> dict:
         return {nome:dados[nome]}
     else:
         print("Nome ou senha inválidos!")
+        sleep(1)
         return {}
