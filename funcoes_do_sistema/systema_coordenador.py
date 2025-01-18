@@ -199,7 +199,33 @@ status: {eventos[evento]["status"]}
         eventos = []
         
         #separa os eventos que estão cancelados
-        [eventos.append(evento) if evento.values()['status'] == "cancelado" else None for evento in lerArquivoJson(LocalArquivos().arquivoEventos)]
+        [eventos.append(evento) if evento[1]['status'] == "cancelado" else None for evento in lerArquivoJson(LocalArquivos().arquivoEventos).items()]
+        
+        #Mostra os eventos detalhado
+        for numero, evento in enumerate(eventos):
+            print(f"""[{numero}]
+Nome: {evento[0]}
+Data: {evento[1]['data']}
+Descrição: {evento[1]["descrição"]}
+Número máximo de inscritos: {evento[1]["número máximo de inscritos"]}
+Inscritos: {evento[1]["inscritos"]}
+Coordenador: {evento[1]["coordenador"]}
+status: {evento[1]["status"]}
+{'-'*50}\n""")
+        
+        usuario = input("Qual evento deseja excluir: ")
+        
+        try: #Esclui o evento selecionado e salva o json.
+            evento = eventos[int(usuario)][0]
+            eventos = lerArquivoJson(LocalArquivos().arquivoEventos)
+            del eventos[evento]
+            salvarArquivoJson(LocalArquivos().arquivoEventos, eventos)
+            print("Evento deletado com sucesso!")
+            sleep(1)
 
-        print(eventos)
-        input()
+        except ValueError:
+            print("Dados inválidos!")
+            sleep(1)
+        except IndexError:
+            print("Dados inválidos!")
+            sleep(1)

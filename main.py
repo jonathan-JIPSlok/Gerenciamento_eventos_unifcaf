@@ -48,9 +48,8 @@ if list(dadosDoUsuario.values())[0]["tipo"] == "coordenador":
         elif usuario == '1': #Chama função para atualizar um evento
             objetoDoUsuario.atualizarEvento()
 
-        elif usuario == '2':
-            pass
-
+        elif usuario == '2': #Chama função para excluir um evento
+            objetoDoUsuario.excluirEvento()
         elif usuario == '3':
             exit()
         
