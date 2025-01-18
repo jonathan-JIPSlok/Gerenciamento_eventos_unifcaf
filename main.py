@@ -41,9 +41,16 @@ if list(dadosDoUsuario.values())[0]["tipo"] == "coordenador":
         cabecalho("Unifecaf Eventos")
         printar_opcoes(objetoDoUsuario.funcoesDoCoordenador)
         usuario = input("O que deseja: ")
-        if usuario == "0":
+
+        if usuario == "0": #Chama função para cadastrar um evento
             objetoDoUsuario.cadastrarEvento()
-        
+
+        elif usuario == '1': #Chama função para atualizar um evento
+            objetoDoUsuario.atualizarEvento()
+
+        elif usuario == '2':
+            pass
+
         elif usuario == '3':
             exit()
         

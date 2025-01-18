@@ -94,9 +94,13 @@ class Coordenador:
             data = datetime.strptime(data, "%d-%m-%Y") #Válidando data
             if len(nome) != 0 and len(descricao) != 0 and int(numeroMaxInscritos) > 0 and data > datetime.now():
                 
+                #Arrumando a data
+                data = str(data).split()[0]
+                data = f"{data[8:10]}/{data[5:7]}/{data[0:4]}"
+
                 #Coletando os eventos e salvando o novo evento
                 eventos = lerArquivoJson(LocalArquivos().arquivoEventos)
-                eventos[nome] = {"data": str(data).split()[0], "descrição": descricao, "número máximo de inscritos": int(numeroMaxInscritos), "inscritos": 0, "coordenador": list(self.dadosDoCoordenador.keys())[0]}
+                eventos[nome] = {"data": str(data).split()[0], "descrição": descricao, "número máximo de inscritos": int(numeroMaxInscritos), "inscritos": 0, "coordenador": list(self.dadosDoCoordenador.keys())[0], 'status':"aberto"}
                 salvarArquivoJson(LocalArquivos().arquivoEventos, eventos)
             
             else:
@@ -104,3 +108,98 @@ class Coordenador:
         except ValueError:
             print("Dados inválidos! verifique data ou número máximo de inscritos.")
             sleep(1)
+    
+    def atualizarEvento(self) -> None:
+        """
+        Atualiza um evento
+        """
+        cabecalho("Atualizar Evento")
+
+        #Coletando os eventos
+        eventos = lerArquivoJson(LocalArquivos().arquivoEventos)
+
+        # mostrando os eventos pelo nome com ListComprehension, seu desempenho é melhor
+        [print(f"\n[{numero}] \nEvento: {nome}") for numero, nome in enumerate(eventos.keys())]
+        usuario = input("\nQual evento deseja atualizar: ")
+
+        try:
+            evento = list(eventos)[int(usuario)] # coleta o evento selecionado
+
+            # Mostra os dados do evento selecionado
+            print(f"""\nNome: {evento}
+Data: {eventos[evento]["data"]}
+Descrição: {eventos[evento]["descrição"]}
+Número máximo de inscritos: {eventos[evento]["número máximo de inscritos"]}
+Inscritos: {eventos[evento]["inscritos"]}
+Coordenador: {eventos[evento]["coordenador"]}
+status: {eventos[evento]["status"]}
+{'-'*50}\n""")
+            
+            #Mostra as opções do usuário
+            printar_opcoes(("Alterar data", "Alterar número máximo de vagas", "Cancelar Evento"))
+            usuario = input("O que deseja: ")
+            
+            if usuario == "0":
+                print("Data do evento")
+                dia = input("Dia: ")
+                mes = input("Mês: ")
+                ano = input("Ano: ")
+
+                try:
+                    #Válidando data
+                    data = datetime.strptime(f"{dia}-{mes}-{ano}", "%d-%m-%Y")
+                except ValueError:
+                    print("Dados inválidos!")
+                    sleep(1)
+                    return None
+                else:
+                    #Arrumando a data
+                    data = str(data).split()[0]
+                    data = f"{data[8:10]}/{data[5:7]}/{data[0:4]}"
+
+                    eventos[evento]["data"] = data
+
+            elif usuario == '1':
+                #Altera o maximo de inscritos de um evento
+                try:
+                    maximoDeInscritos = int(input("Número máxmio de inscritos: "))
+
+                    #Verifica se o máximo de inscritos definido é maior ou igual ao total de inscritos. 
+                    if maximoDeInscritos >= eventos[evento]['inscritos']:
+                        eventos[evento]["número máximo de inscritos"] = maximoDeInscritos
+                    else:
+                        print("Número máximo deve ser maior ou igual o total de inscritos!")
+                        sleep(1)
+                except ValueError:
+                    print("Dados inválidos!")
+                    sleep(1)
+            elif usuario == '2':
+                eventos[evento]['status'] = "cancelado"
+            elif usuario == '3': # saindo
+                return None
+            else:
+                print("opção inválida!")
+                sleep(1)
+                return None
+            
+            salvarArquivoJson(LocalArquivos().arquivoEventos, eventos)
+            print("dados atualizados com sucesso!")
+            sleep(1)
+
+        except ValueError:
+            print("Dados inválidos!")
+            sleep(1)
+        except IndexError:
+            print("Dados inválidos!")
+            sleep(1)
+
+    def excluirEvento(self):
+        """Exclui um evento que foi cancelado"""
+        cabecalho("Exclui Eventos")
+        eventos = []
+        
+        #separa os eventos que estão cancelados
+        [eventos.append(evento) if evento.values()['status'] == "cancelado" else None for evento in lerArquivoJson(LocalArquivos().arquivoEventos)]
+
+        print(eventos)
+        input()
