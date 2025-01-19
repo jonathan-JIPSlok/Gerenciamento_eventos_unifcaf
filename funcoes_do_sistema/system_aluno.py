@@ -1,6 +1,7 @@
 from time import sleep
 
 from manipulador_de_dados import LocalArquivos, lerArquivoJson, salvarArquivoJson
+from .utilidades import cabecalho
 
 class aluno:
     """Contem todas as funções dos alunos"""
@@ -21,12 +22,14 @@ class aluno:
     def funcoesDoAluno(self) -> tuple:
         """Retorna as funções de um aluno"""
         return ('Ver Eventos', )
-    
-    def printarEventoDetalhado(self,numero, evento):
+
+    def printarEventoDetalhado(self,numero, evento) -> None:
         """Printa um eventos detalhadamente
         :param numero: int: número do evento na lista
         :param evento: dict: dicionário contendo os dados do evento
         """
+        cabecalho("Eventos Unifecaf")
+
         #Printando o evento
         print(f"""Níumero do evento [{numero}] - Evento: {evento[0]}
 Data: {evento[1]['data']}

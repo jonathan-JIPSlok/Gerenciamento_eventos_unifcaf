@@ -22,3 +22,22 @@ def login_coordenador() -> dict:
         print("Nome ou senha inválidos!")
         sleep(1)
         return {}
+
+def loginAluno() -> dict:
+        """Faz o login de um Aluno
+        :return dict: retorna os dados do aluno"""
+
+        cabecalho("Login do Aluno")
+
+        #Coleta os dados
+        ra = input("RA: ").strip()
+        senha = input("Senha: ").strip()
+
+        #Coleta os usuarios
+        usuarios = lerArquivoJson(LocalArquivos().arquivoUsuarios)
+        if ra in usuarios.keys() and usuarios[ra]['senha'] == senha:
+            return {ra:usuarios[ra]}
+        else:
+            print("Dados inválidos!")
+            sleep(1)
+            return {}

@@ -20,7 +20,7 @@ class Coordenador:
         nomeCompleto = input("Nome completo: ").capitalize().strip()
         senha = input("Senha: ").strip()
         email = input("E-mail: ").strip()
-        telefone = input("Telefone: ").replace(" ", '')
+        telefone = input("Telefone: ").replace(" ", '').replace("(",'').replace(')','')
         print("Data de nascimento")
         diaNascimento = input("Dia: ").strip()
         mesNascimento = input("Mês: ").strip()
@@ -106,6 +106,7 @@ class Coordenador:
             
             else:
                 print("Dados inválidos! confirme se todos os campos estão preenchidos.")
+                sleep(1)
         except ValueError:
             print("Dados inválidos! verifique data ou número máximo de inscritos.")
             sleep(1)
@@ -251,6 +252,7 @@ status: {evento[1]["status"]}
         try: #Vericicando a data
             data = datetime.strptime(f"{dia}-{mes}-{ano}", '%d-%m-%Y')
             data = str(data).split()[0]
+            data = f"{data[8:10]}/{data[5:7]}/{data[0:4]}"
         except ValueError:
             print("Data inválida!")
             sleep(1)
@@ -263,7 +265,7 @@ status: {evento[1]["status"]}
             if not ra in usuarios: #Verificando se o aluno não está registrado para evitar duplicidade
 
                 #Registrando o aluno
-                usuarios[ra] = {"nome": nome, "senha": senha, "data de nascimento": str(data), 'email':email, 'telefone':telefone, 'coordenador':list(self.dadosDoCoordenador.keys())[0]}
+                usuarios[ra] = {"nome": nome, "senha": senha, "data de nascimento": str(data), 'email':email, 'telefone':telefone, 'coordenador':list(self.dadosDoCoordenador.keys())[0], 'tipo':"aluno"}
                 salvarArquivoJson(LocalArquivos().arquivoUsuarios, usuarios)
 
                 print("Alunos registrado com sucesso!")
