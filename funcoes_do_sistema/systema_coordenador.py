@@ -54,7 +54,6 @@ class Coordenador:
             print("Dados inválidos")
             sleep(1)
     
-
     @property
     def funcoesDoCoordenador(self) -> tuple:
         """
@@ -296,4 +295,3 @@ status: {evento[1]["status"]}
             self.atualizarEvento()
         elif usuario == '3':
             return
-        

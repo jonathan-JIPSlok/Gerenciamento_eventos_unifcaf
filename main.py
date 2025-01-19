@@ -5,8 +5,10 @@ from funcoes_do_sistema import login_coordenador
 from funcoes_do_sistema.utilidades import cabecalho, printar_opcoes
 from manipulador_de_dados import lerArquivoJson, LocalArquivos
 from funcoes_do_sistema.systema_coordenador import Coordenador
+from funcoes_do_sistema.system_aluno import aluno
 
-
+aluno().printarEventos()
+input()
 # Verifica se é o primeiro acesso, caso seja ele criar a pasta "data" e chama o cadastro de um coordenador
 if lerArquivoJson(LocalArquivos().arquivoUsuarios) == {}:
     makedirs("data", exist_ok = True)
