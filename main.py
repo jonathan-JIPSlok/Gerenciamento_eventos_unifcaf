@@ -50,6 +50,13 @@ if list(dadosDoUsuario.values())[0]["tipo"] == "coordenador":
 
         elif usuario == '2': #Chama função para excluir um evento
             objetoDoUsuario.excluirEvento()
-        elif usuario == '3':
+
+        elif usuario == '3': #chama função para cadastrar um aluno
+            objetoDoUsuario.cadastrarAluno()
+        
+        elif usuario == '4': #Chama função para vizualisar eventos
+            objetoDoUsuario.visualizarEventos()
+        
+        elif usuario == '5':
             exit()
         

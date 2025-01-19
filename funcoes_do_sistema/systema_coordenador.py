@@ -60,7 +60,7 @@ class Coordenador:
         """
         Opções disponíveis para um coordenador em formato de tupla
         """
-        return ("Cadastrar Evento", "Atualizar Evento", "Remover Evento")
+        return ("Cadastrar Evento", "Atualizar Evento", "Remover Evento", "Cadastrar Aluno", "Visualizar Eventos")
 
     @property
     def dadosDoCoordenador(self) -> dict:
@@ -102,6 +102,8 @@ class Coordenador:
                 eventos = lerArquivoJson(LocalArquivos().arquivoEventos)
                 eventos[nome] = {"data": str(data).split()[0], "descrição": descricao, "número máximo de inscritos": int(numeroMaxInscritos), "inscritos": 0, "coordenador": list(self.dadosDoCoordenador.keys())[0], 'status':"aberto"}
                 salvarArquivoJson(LocalArquivos().arquivoEventos, eventos)
+                print("Evento registrado com sucesso!")
+                sleep(1)
             
             else:
                 print("Dados inválidos! confirme se todos os campos estão preenchidos.")
@@ -229,3 +231,69 @@ status: {evento[1]["status"]}
         except IndexError:
             print("Dados inválidos!")
             sleep(1)
+
+    def cadastrarAluno(self) -> None:
+        """
+        Cadastra um aluno.
+        """
+        cabecalho("Cadastro de Aluno")
+
+        #Coletando dados
+        ra = input("RA do Aluno: ").strip()
+        nome = input("Nome completo: ").strip().capitalize()
+        senha = input("Senha: ").strip()
+        print("Data de Nascimento")
+        dia = input("Dia: ")
+        mes = input("Mês: ")
+        ano = input("Ano: ")
+        email = input("Email do Aluno: ").strip()
+        telefone = input("Telefone: ").replace(" ", '').replace("(", '').replace(')', '')
+
+        try: #Vericicando a data
+            data = datetime.strptime(f"{dia}-{mes}-{ano}", '%d-%m-%Y')
+            data = str(data).split()[0]
+        except ValueError:
+            print("Data inválida!")
+            sleep(1)
+            return None
+        
+        #Verificando os dados
+        if ra.isnumeric() and len(nome) > 0 and len(senha) > 0 and len(email) > 0 and telefone.isnumeric():
+            usuarios = lerArquivoJson(LocalArquivos().arquivoUsuarios)
+            
+            if not ra in usuarios: #Verificando se o aluno não está registrado para evitar duplicidade
+
+                #Registrando o aluno
+                usuarios[ra] = {"nome": nome, "senha": senha, "data de nascimento": str(data), 'email':email, 'telefone':telefone, 'coordenador':list(self.dadosDoCoordenador.keys())[0]}
+                salvarArquivoJson(LocalArquivos().arquivoUsuarios, usuarios)
+
+                print("Alunos registrado com sucesso!")
+                sleep(1)
+            else:
+                print("Aluno já exitente nos registros!")
+                sleep(1)
+        else:
+            print("Dados inválidos!")
+            sleep(1)
+    
+    def visualizarEventos(self):
+        """Mostra os eventos registrados"""
+        cabecalho("Eventos registrados Unifecaf")
+
+        eventos = lerArquivoJson(LocalArquivos().arquivoEventos)
+        [print(f'[{numero}] - Evento: {nome} \n') for numero, nome in enumerate(eventos.keys())]
+        print("-"*50)
+        print("\n")
+
+        printar_opcoes(("Ver inscritos", 'Cadastrar novo evento', "Atualizar evento"))
+        usuario = input("O que deseja: ")
+        if usuario == '0':
+            print("INACABADO")
+            sleep(1)
+        elif usuario == '1':
+            self.cadastrarEvento()
+        elif usuario == '2':
+            self.atualizarEvento()
+        elif usuario == '3':
+            return
+        
