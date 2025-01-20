@@ -58,7 +58,27 @@ if list(dadosDoUsuario.values())[0]["tipo"] == "coordenador":
         
         elif usuario == '4': #Chama função para vizualisar eventos
             objetoDoUsuario.visualizarEventos()
+
+        elif usuario == '5': #Chama função para vizualisar alunos
+            objetoDoUsuario.alunosInscritos()
         
-        elif usuario == '5':
+        elif usuario == '6':
             exit()
-        
+
+# verifica se é um Aluno e manipula
+elif list(dadosDoUsuario.values())[0]['tipo'] == 'aluno':
+
+    #objeto que vai controlar o aluno.
+    objetoDoUsuario = aluno()
+    objetoDoUsuario.dadosDoAluno = dadosDoUsuario #Define os dados do aluno
+
+    # Looping para fazer o sistema funcionar.
+    while True:
+        cabecalho("Unifecaf Eventos")
+        printar_opcoes(objetoDoUsuario.funcoesDoAluno)
+        usuario = input("O que deseja: ")
+
+        if usuario == '0':
+            objetoDoUsuario.printarEventos()
+        elif usuario == '1':
+            exit()

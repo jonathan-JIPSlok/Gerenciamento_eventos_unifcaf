@@ -23,15 +23,14 @@ class aluno:
         """Retorna as funções de um aluno"""
         return ('Ver Eventos', )
 
-    def printarEventoDetalhado(self,numero, evento) -> None:
+    def printarEventoDetalhado(self, numero, evento) -> None:
         """Printa um eventos detalhadamente
         :param numero: int: número do evento na lista
         :param evento: dict: dicionário contendo os dados do evento
         """
-        cabecalho("Eventos Unifecaf")
 
         #Printando o evento
-        print(f"""Níumero do evento [{numero}] - Evento: {evento[0]}
+        print(f"""Número do evento [{numero}] - Evento: {evento[0]}
 Data: {evento[1]['data']}
 Descrição: {evento[1]['descrição']}
 Vasgas restantes: {evento[1]['número máximo de inscritos'] - evento[1]['inscritos']}
@@ -39,19 +38,25 @@ Vasgas restantes: {evento[1]['número máximo de inscritos'] - evento[1]['inscri
     
     def printarEventos(self) -> None:
         """Mostra os eventos disponíveis e possibilita se inscrever em um"""
-        
+        cabecalho("Eventos Unifecaf")
         #ListComprehension que passa os dados dos eventos que tem vagas disponíveis a função printarEventoDetalhado um por um.
         [self.printarEventoDetalhado(numero, evento) if evento[1]['inscritos'] < evento[1]['número máximo de inscritos'] else None for numero, evento in enumerate(lerArquivoJson(LocalArquivos().arquivoEventos).items())]
         print("-"*50)
 
-        usuario = input("[sair] para voltar \n[1] Para se inscrever-se em um evento \nO que deseja: ").strip().lower()
+        usuario = input("[sair] para voltar \n[1] Para se inscrever-se em um evento \n\nO que deseja: ").strip().lower()
         if usuario == 'sair':
             return None
         
         #Permite que o usuário se inscreva em um evento
         elif usuario == '1':
             usuario = input("Número do evento: ")
-            self.inscreverEmEventos(int(usuario))
+            
+            #Verifica se o usuário digitou um número e se ele é menor que o número de eventos disponíveis
+            if usuario.isnumeric() and int(usuario) < len(lerArquivoJson(LocalArquivos().arquivoEventos)):
+                self.inscreverEmEventos(int(usuario))
+            else:
+                print("Evento inválido!")
+                sleep(1)
         else:
             print("Opção inválida!")
             sleep(1)
@@ -65,13 +70,29 @@ Vasgas restantes: {evento[1]['número máximo de inscritos'] - evento[1]['inscri
 
         #Verifica se tem vagas no evento
         if list(eventos.items())[numeroEvento][1]['inscritos'] < list(eventos.items())[numeroEvento][1]['número máximo de inscritos']:
-            
-            #Aumenta o número de inscritos em um evento
-            eventos[list(eventos.keys())[numeroEvento]]['inscritos'] += 1
 
             #Registra a inscrição do aluno no evento
-            inscritos[str(self.dadosDoAluno.keys())] = list(eventos.keys())[numeroEvento]
+            aluno = list(self.dadosDoAluno.keys())[0]
+            if aluno not in list(inscritos.keys()):
+                inscritos[aluno] = [list(eventos.keys())[numeroEvento]]
+                #Aumenta o número de inscritos em um evento
+                eventos[list(eventos.keys())[numeroEvento]]['inscritos'] += 1
+            
+            elif len(inscritos[aluno]) > 0:
 
+                #Verifica se o aluno já está inscrito no evento
+                if list(eventos.keys())[numeroEvento] not in inscritos[aluno]:
+                    
+                    #Adiciona o evento na lista de eventos inscritos
+                    inscritos[aluno].append(list(eventos.keys())[numeroEvento])
+                    
+                    #Aumenta o número de inscritos em um evento
+                    eventos[list(eventos.keys())[numeroEvento]]['inscritos'] += 1
+               
+                else:
+                    print("Você já está inscrito nesse evento!")
+                    sleep(1)
+                    return None
             #Salva nos arquivos
             salvarArquivoJson(LocalArquivos().arquivoEventos, eventos)
             salvarArquivoJson(LocalArquivos().arquivoInscritos, inscritos)

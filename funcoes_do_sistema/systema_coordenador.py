@@ -59,7 +59,7 @@ class Coordenador:
         """
         Opções disponíveis para um coordenador em formato de tupla
         """
-        return ("Cadastrar Evento", "Atualizar Evento", "Remover Evento", "Cadastrar Aluno", "Visualizar Eventos")
+        return ("Cadastrar Evento", "Atualizar Evento", "Remover Evento", "Cadastrar Aluno", "Visualizar Eventos", "Alunos Inscritos em eventos")
 
     @property
     def dadosDoCoordenador(self) -> dict:
@@ -297,3 +297,30 @@ status: {evento[1]["status"]}
             self.atualizarEvento()
         elif usuario == '3':
             return
+
+    def alunosInscritos(self):
+        """Mostra os alunos inscritos em um evento"""
+        cabecalho("Alunos Inscritos")
+        eventos = lerArquivoJson(LocalArquivos().arquivoEventos)
+        
+        #Mostra os eventos
+        [print(f'[{numero}] - Evento: {nome} \n') for numero, nome in enumerate(eventos.keys())]
+        print("-"*50)
+        print("\n")
+        
+        usuario = input("Qual evento deseja ver os inscritos: ")
+        try:
+            evento = list(eventos)[int(usuario)]
+            inscritos = lerArquivoJson(LocalArquivos().arquivoInscritos)
+            
+            #Mostra os inscritos
+            [print(f'Aluno: {aluno}') for aluno in inscritos.keys() if evento in inscritos[aluno]]
+            print("-"*50)
+            print("\n")
+            input("Pressione enter para continuar...")
+        except ValueError:
+            print("Dados inválidos!")
+            sleep(1)
+        except IndexError:
+            print("Dados inválidos!")
+            sleep(1)
