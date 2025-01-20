@@ -1,12 +1,11 @@
-# Controle de estoque unifecaf
- <p>Desenvolvendo um Sistema de Controle de Estoque com Python: Soluções para  Gerenciamento em uma Loja de Eletrônicos</p>
- <b>Trabalho Estudo de caso para amatéria de Computational Logic Using Python</b>
+# Gerenciador de eventos universitários da Unifecaf
+ <p>Desenvolvendo um sistema de gerenciamento de eventos para a UniFECAF. Esse sistema será utilizado por alunos e coordenadores para organizar e controlar eventos como workshops, palestras, e até a "Tech Week"</p>
+ <b>Trabalho Portifólio para amatéria de Computational Logic Using Python</b>
 
  Objetivos a serem efetuados:
-1. Implementar o menu de opções. 
-2. Adicionar produto. 
-3. Atualizar produto. 
-4. Excluir produto. 
-5. Visualizar estoque. 
-6. Sair do sistema.
-7. Registrar vendas. 
+1. Cadastro de Eventos.
+2. Atualização de Eventos.
+3. Visualização de Eventos Disponíveis.
+4. Inscrição em Eventos.
+5. Visualizar Inscrições.
+6. Exclusão de Eventos.
