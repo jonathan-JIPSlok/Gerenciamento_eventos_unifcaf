@@ -289,8 +289,7 @@ status: {evento[1]["status"]}
         printar_opcoes(("Ver inscritos", 'Cadastrar novo evento', "Atualizar evento"))
         usuario = input("O que deseja: ")
         if usuario == '0':
-            print("INACABADO")
-            sleep(1)
+            self.alunosInscritos()
         elif usuario == '1':
             self.cadastrarEvento()
         elif usuario == '2':
