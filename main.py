@@ -1,5 +1,4 @@
 from os import makedirs
-from time import sleep
 
 from funcoes_do_sistema import login_coordenador, loginAluno
 from funcoes_do_sistema.utilidades import cabecalho, printar_opcoes
