@@ -69,7 +69,7 @@ Vasgas restantes: {evento[1]['número máximo de inscritos'] - evento[1]['inscri
         inscritos = lerArquivoJson(LocalArquivos().arquivoInscritos)
 
         #Verifica se tem vagas no evento
-        if list(eventos.items())[numeroEvento][1]['inscritos'] < list(eventos.items())[numeroEvento][1]['número máximo de inscritos']:
+        if list(eventos.items())[numeroEvento][1]['inscritos'] < list(eventos.items())[numeroEvento][1]['número máximo de inscritos'] and list(eventos.items())[numeroEvento][1]['status'] == 'aberto':
 
             #Registra a inscrição do aluno no evento
             aluno = list(self.dadosDoAluno.keys())[0]
