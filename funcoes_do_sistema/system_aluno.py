@@ -40,7 +40,7 @@ Vasgas restantes: {evento[1]['número máximo de inscritos'] - evento[1]['inscri
         """Mostra os eventos disponíveis e possibilita se inscrever em um"""
         cabecalho("Eventos Unifecaf")
         #ListComprehension que passa os dados dos eventos que tem vagas disponíveis a função printarEventoDetalhado um por um.
-        [self.printarEventoDetalhado(numero, evento) if evento[1]['inscritos'] < evento[1]['número máximo de inscritos'] else None for numero, evento in enumerate(lerArquivoJson(LocalArquivos().arquivoEventos).items())]
+        [self.printarEventoDetalhado(numero, evento) if evento[1]['inscritos'] < evento[1]['número máximo de inscritos'] and evento[1]['status'] == 'aberto' else None for numero, evento in enumerate(lerArquivoJson(LocalArquivos().arquivoEventos).items())]
         print("-"*50)
 
         usuario = input("[sair] para voltar \n[1] Para se inscrever-se em um evento \n\nO que deseja: ").strip().lower()
@@ -69,7 +69,7 @@ Vasgas restantes: {evento[1]['número máximo de inscritos'] - evento[1]['inscri
         inscritos = lerArquivoJson(LocalArquivos().arquivoInscritos)
 
         #Verifica se tem vagas no evento
-        if list(eventos.items())[numeroEvento][1]['inscritos'] < list(eventos.items())[numeroEvento][1]['número máximo de inscritos'] and list(eventos.items())[numeroEvento][1]['status'] == 'aberto':
+        if list(eventos.items())[numeroEvento][1]['inscritos'] < list(eventos.items())[numeroEvento][1]['número máximo de inscritos']:
 
             #Registra a inscrição do aluno no evento
             aluno = list(self.dadosDoAluno.keys())[0]
